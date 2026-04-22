@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "feed": "Feed",
+    "library": "Library",
+    "capture": "Capture",
+    "leaderboards": "Leaderboards",
+    "me": "Me"
+  },
+  "capture": {
+    "bat": "Bat Mode",
+    "bowl": "Bowl Mode",
+    "holdToRecord": "Hold to record",
+    "tapToRecord": "Tap for 8s clip",
+    "uploadVideo": "Upload from gallery",
+    "switchCamera": "Flip",
+    "framing": {
+      "searching": "Position yourself in frame",
+      "partial": "Step back a little — we need your full body",
+      "good": "Perfect framing — ready to record",
+      "recording": "Recording..."
+    },
+    "coach": {
+      "tooClose": "Step back — we need head to toe",
+      "tooDark": "Find better lighting for accurate analysis",
+      "wrongOrientation": "Turn your phone to portrait",
+      "bodyNotVisible": "Make sure your full body is visible",
+      "ready": "Looking good — hold steady and record"
+    }
+  },
+  "processing": {
+    "extracting": "Extracting frames...",
+    "detecting": "Detecting pose landmarks...",
+    "analyzing": "Analyzing technique...",
+    "matching": "Finding your pro match...",
+    "rendering": "Creating your DNA Card...",
+    "almostDone": "Almost there..."
+  },
+  "card": {
+    "yourDna": "Your Cricket DNA",
+    "metrics": "Biomechanics",
+    "proMatch": "Pro Match",
+    "weakness": "Key Insight",
+    "archetype": "Archetype",
+    "confidence": "Confidence",
+    "deepDive": "Swipe up for full analysis",
+    "share": "Share your DNA",
+    "cricketxCta": "Train this in VR",
+    "cricketxSubtext": "Fix {{weakness}} with CricketX drills"
+  },
+  "metrics": {
+    "stanceWidth": "Stance Width",
+    "backliftAngle": "Backlift Angle",
+    "headPosition": "Head Position",
+    "frontKneeAngle": "Front Knee Bend",
+    "batSwingPlane": "Swing Plane",
+    "followThroughExtension": "Follow-Through",
+    "releaseHeight": "Release Height",
+    "actionType": "Action Type",
+    "estimatedSpeed": "Est. Speed",
+    "seamAngle": "Seam Angle",
+    "runUpRhythm": "Run-Up Rhythm",
+    "injuryRisk": "Injury Risk"
+  },
+  "share": {
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "tiktok": "TikTok",
+    "download": "Download",
+    "copied": "Link copied!"
+  },
+  "longVideo": {
+    "detecting": "Scanning for deliveries...",
+    "found": "Found {{count}} deliveries",
+    "reelPrompt": "Want a 60-second highlight reel?",
+    "createReel": "Create Highlight Reel",
+    "delivery": "Delivery {{number}}",
+    "timeline": "Delivery Timeline"
+  },
+  "errors": {
+    "notCricket": "Hmm, that doesn't look like a cricket clip. Try recording a batting or bowling action.",
+    "poorFraming": "We couldn't track your full body. Try recording with more space around you.",
+    "tooDark": "The lighting's a bit low for accurate tracking. Try somewhere brighter.",
+    "corrupted": "We had trouble reading that video. Could you try a different clip?",
+    "tooShort": "That clip's a bit short — we need at least 2 seconds to analyze technique.",
+    "generic": "Something didn't go as planned. Let's try again with a fresh recording."
+  },
+  "library": {
+    "title": "Your Library",
+    "empty": "No analyses yet. Record your first clip to get started!",
+    "compare": "Compare"
+  },
+  "info": {
+    "stanceWidth": "Distance between your feet when you take guard. Wider gives stability, narrower allows quicker movement.",
+    "backliftAngle": "How high you lift the bat before the downswing. Higher backlift generates more power but needs better timing.",
+    "headPosition": "Where your head is relative to your body at the moment of contact. Staying still and over the ball improves control.",
+    "frontKneeAngle": "Bend in your front knee at impact. A braced front leg transfers power; too bent absorbs energy.",
+    "batSwingPlane": "The angle your bat travels through during the shot. A straighter plane means more consistent contact.",
+    "followThroughExtension": "How fully you extend after hitting. Full follow-through means committed shot-making.",
+    "releaseHeight": "How high your arm is when you let go of the ball. Higher release = more bounce.",
+    "actionType": "Whether your body faces side-on, front-on, or mixes both during delivery. Mixed actions can increase injury risk.",
+    "estimatedSpeed": "Approximate ball speed based on your body segment velocities during delivery.",
+    "seamAngle": "Orientation of the wrist at release — indicates whether you're bowling seam-up, cross-seam, or angled.",
+    "runUpRhythm": "Consistency of your stride pattern in the run-up. Rhythmic approach = better timing at the crease.",
+    "injuryRisk": "Flags for biomechanical patterns linked to common bowling injuries (back, knee, shoulder)."
+  }
+}
