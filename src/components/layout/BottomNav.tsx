@@ -15,7 +15,7 @@ export function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const hiddenOn = ['/processing', '/card', '/long-video'];
+  const hiddenOn = ['/processing', '/card', '/long-video', '/highlight'];
   if (hiddenOn.some((p) => location.pathname.startsWith(p))) return null;
 
   return (

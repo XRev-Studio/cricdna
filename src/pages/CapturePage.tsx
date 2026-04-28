@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Upload, RotateCcw, Camera } from 'lucide-react';
 import { useAnalysisStore } from '../lib/store/analysisStore';
@@ -10,6 +10,9 @@ import { SilhouetteOverlay } from '../components/camera/SilhouetteOverlay';
 export function CapturePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const intent = searchParams.get('intent') === 'highlight' ? 'highlight' : 'analyze';
+  const nextRoute = intent === 'highlight' ? '/highlight' : '/processing';
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -91,7 +94,7 @@ export function CapturePage() {
       const url = URL.createObjectURL(blob);
       const file = new File([blob], 'recording.webm', { type: 'video/webm' });
       setCurrentVideo(url, file);
-      navigate('/processing');
+      navigate(nextRoute);
     };
     mediaRecorderRef.current = recorder;
     recorder.start(100);
@@ -123,6 +126,12 @@ export function CapturePage() {
     if (!file) return;
     const url = URL.createObjectURL(file);
     setCurrentVideo(url, file);
+
+    // Highlight intent always goes straight to the reel — long clips are expected
+    if (intent === 'highlight') {
+      navigate('/highlight');
+      return;
+    }
 
     const video = document.createElement('video');
     video.preload = 'metadata';

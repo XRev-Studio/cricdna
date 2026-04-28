@@ -35,16 +35,16 @@ export function FeedPage() {
       {/* Feature cards */}
       <div className="grid grid-cols-2 gap-3 mb-6">
         {[
-          { icon: Sparkles, title: 'Pro Match', desc: 'See which pro you bat like', color: 'accent-purple' },
-          { icon: TrendingUp, title: 'Technique Score', desc: 'Biomechanics breakdown', color: 'accent-cyan' },
-          { icon: Zap, title: 'Quick Analysis', desc: 'Results in under 60s', color: 'accent-orange' },
-          { icon: Camera, title: 'Auto Highlight', desc: 'AI-edited match reels', color: 'accent-green' },
-        ].map(({ icon: Icon, title, desc, color }) => (
+          { icon: Sparkles, title: 'Pro Match', desc: 'See which pro you bat like', color: 'accent-purple', to: '/capture' },
+          { icon: TrendingUp, title: 'Technique Score', desc: 'Biomechanics breakdown', color: 'accent-cyan', to: '/capture' },
+          { icon: Zap, title: 'Quick Analysis', desc: 'Results in under 60s', color: 'accent-orange', to: '/capture' },
+          { icon: Camera, title: 'Auto Highlight', desc: 'AI-edited match reels', color: 'accent-green', to: '/capture?intent=highlight' },
+        ].map(({ icon: Icon, title, desc, color, to }) => (
           <motion.div
             key={title}
             className="p-4 rounded-xl bg-bg-card border border-white/5"
             whileTap={{ scale: 0.97 }}
-            onClick={() => navigate('/capture')}
+            onClick={() => navigate(to)}
           >
             <Icon size={22} className={`text-${color} mb-2`} />
             <h3 className="text-sm font-semibold text-text-primary">{title}</h3>

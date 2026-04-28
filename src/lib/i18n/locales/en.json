@@ -89,6 +89,20 @@
     "empty": "No analyses yet. Record your first clip to get started!",
     "compare": "Compare"
   },
+  "highlight": {
+    "title": "Highlight Reel",
+    "scanning": "Scanning your clip for action...",
+    "analyzing": "Analyzing shot {{current}} of {{total}}...",
+    "stitching": "Stitching your reel...",
+    "shotCounter": "Shot {{current}} / {{total}}",
+    "dominantArchetype": "Dominant Archetype",
+    "shotsFound": "{{count}} shots in this reel",
+    "noShots": "No shots detected",
+    "noShotsHint": "Try a clip with more visible cricket action",
+    "newClip": "New clip",
+    "share": "Share reel",
+    "replay": "Replay"
+  },
   "info": {
     "stanceWidth": "Distance between your feet when you take guard. Wider gives stability, narrower allows quicker movement.",
     "backliftAngle": "How high you lift the bat before the downswing. Higher backlift generates more power but needs better timing.",

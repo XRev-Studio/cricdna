@@ -8,6 +8,7 @@ import { MePage } from './pages/MePage';
 import { ProcessingPage } from './pages/ProcessingPage';
 import { CardPage } from './pages/CardPage';
 import { LongVideoPage } from './pages/LongVideoPage';
+import { HighlightReelPage } from './pages/HighlightReelPage';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/processing" element={<ProcessingPage />} />
             <Route path="/card" element={<CardPage />} />
             <Route path="/long-video" element={<LongVideoPage />} />
+            <Route path="/highlight" element={<HighlightReelPage />} />
           </Routes>
         </div>
         <BottomNav />
