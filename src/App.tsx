@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { BottomNav } from './components/layout/BottomNav';
+import { ProcessingBanner } from './components/layout/ProcessingBanner';
 import { FeedPage } from './pages/FeedPage';
 import { LibraryPage } from './pages/LibraryPage';
 import { CapturePage } from './pages/CapturePage';
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/highlight" element={<HighlightReelPage />} />
           </Routes>
         </div>
+        <ProcessingBanner />
         <BottomNav />
       </div>
     </BrowserRouter>

@@ -11,7 +11,7 @@ export function LongVideoPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const ran = useRef(false);
-  const { currentVideo, setCurrentVideo } = useAnalysisStore();
+  const { currentVideo, setCurrentVideo, mode, startAnalyzeJob } = useAnalysisStore();
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [detecting, setDetecting] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -34,9 +34,18 @@ export function LongVideoPage() {
     });
   }, [currentVideo]);
 
-  const handleAnalyzeDelivery = (delivery: Delivery) => {
-    // Create a sub-clip URL for this delivery and navigate to processing
+  const handleAnalyzeDelivery = (_delivery: Delivery) => {
+    // Per-delivery sub-clip cutting is still a TODO; for now we run the
+    // analyze pipeline on the full source video. The job runs in the store
+    // so the user can switch tabs while it works.
+    if (!currentVideo) return;
     setCurrentVideo(currentVideo);
+    startAnalyzeJob({
+      videoUrl: currentVideo,
+      videoFile: null,
+      pipelineMode: mode,
+      sessionMode: 'analyze',
+    });
     navigate('/processing');
   };
 

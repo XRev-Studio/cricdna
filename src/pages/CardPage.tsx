@@ -15,18 +15,83 @@ import type { BattingMetrics, BowlingMetrics } from '../lib/types';
 export function CardPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { currentResult, saveResult } = useAnalysisStore();
+  const { currentResult, currentJob, saveResult } = useAnalysisStore();
   const [showDeepDive, setShowDeepDive] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
+  // If there's nothing to show — no result and no running analyze job —
+  // bounce back to capture. Otherwise, render whatever we've got (in-progress
+  // skeleton, error, or full card).
   useEffect(() => {
-    if (!currentResult) {
+    if (!currentResult && (!currentJob || currentJob.type !== 'analyze')) {
       navigate('/capture');
       return;
     }
-    const timer = setTimeout(() => setRevealed(true), 300);
-    return () => clearTimeout(timer);
-  }, [currentResult, navigate]);
+    if (currentResult) {
+      const timer = setTimeout(() => setRevealed(true), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [currentResult, currentJob, navigate]);
+
+  // ----- In-progress state: job running, no result yet -----
+  if (!currentResult && currentJob?.type === 'analyze' && currentJob.status === 'running') {
+    return (
+      <div className="h-full flex flex-col bg-bg-primary">
+        <div className="flex items-center justify-between px-4 pt-4 pb-2 z-10">
+          <button onClick={() => navigate('/feed')} className="p-2 -ml-2">
+            <ArrowLeft size={24} className="text-text-primary" />
+          </button>
+          <h1 className="text-lg font-bold text-gradient">{t('card.yourDna')}</h1>
+          <div className="w-10" />
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center px-8">
+          <motion.div
+            className="relative w-20 h-20 mb-6"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          >
+            <div className="absolute inset-0 rounded-full border-4 border-accent-green/20" />
+            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-accent-green" />
+          </motion.div>
+          <p className="text-text-primary font-semibold text-base mb-3 text-center">
+            {currentJob.stage}
+          </p>
+          <div className="w-full max-w-xs h-1.5 rounded-full bg-bg-card overflow-hidden">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-accent-green to-accent-cyan"
+              animate={{ width: `${currentJob.progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+          <p className="text-text-muted text-xs mt-2">{Math.round(currentJob.progress)}%</p>
+          <p className="text-text-muted text-xs mt-8 text-center max-w-xs">
+            Switch tabs any time — your card will be ready when you come back.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ----- Error state -----
+  if (!currentResult && currentJob?.type === 'analyze' && currentJob.status === 'error') {
+    return (
+      <div className="h-full flex flex-col items-center justify-center bg-bg-primary px-8 text-center">
+        <p className="text-lg font-bold text-text-primary mb-2">
+          Couldn&apos;t analyze that clip
+        </p>
+        <p className="text-text-secondary text-sm mb-8 max-w-xs">
+          {currentJob.error ?? t('errors.generic')}
+        </p>
+        <button
+          onClick={() => navigate('/capture')}
+          className="px-6 py-3 rounded-full bg-accent-green text-bg-primary font-semibold text-sm"
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
 
   if (!currentResult) return null;
 
@@ -58,9 +123,10 @@ export function CardPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Hero frame with skeleton */}
+              {/* Hero frame with skeleton — fits portrait & landscape video */}
               <motion.div
-                className="relative rounded-2xl overflow-hidden mb-4 neon-glow"
+                className="relative rounded-2xl overflow-hidden mb-4 neon-glow bg-black flex items-center justify-center"
+                style={{ minHeight: '40vh', maxHeight: '55vh' }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -69,15 +135,14 @@ export function CardPage() {
                   <img
                     src={heroFrameDataUrl}
                     alt="Analysis frame"
-                    className="w-full aspect-[3/4] object-cover"
+                    className="max-w-full w-auto h-auto object-contain"
+                    style={{ maxHeight: '55vh' }}
                   />
                 ) : (
-                  <div className="w-full aspect-[3/4] bg-bg-card flex items-center justify-center">
-                    <span className="text-6xl">{isBat ? '🏏' : '🎳'}</span>
-                  </div>
+                  <span className="text-6xl">{isBat ? '🏏' : '🎳'}</span>
                 )}
 
-                {/* Archetype overlay */}
+                {/* Archetype overlay — sits on the bottom letterbox bar */}
                 <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/90 to-transparent">
                   <motion.p
                     className="text-2xl font-black text-gradient"

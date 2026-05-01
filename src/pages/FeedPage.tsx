@@ -35,10 +35,10 @@ export function FeedPage() {
       {/* Feature cards */}
       <div className="grid grid-cols-2 gap-3 mb-6">
         {[
-          { icon: Sparkles, title: 'Pro Match', desc: 'See which pro you bat like', color: 'accent-purple', to: '/capture' },
-          { icon: TrendingUp, title: 'Technique Score', desc: 'Biomechanics breakdown', color: 'accent-cyan', to: '/capture' },
-          { icon: Zap, title: 'Quick Analysis', desc: 'Results in under 60s', color: 'accent-orange', to: '/capture' },
-          { icon: Camera, title: 'Auto Highlight', desc: 'AI-edited match reels', color: 'accent-green', to: '/capture?intent=highlight' },
+          { icon: Sparkles, title: 'Pro Match', desc: 'See which pro you bat like', color: 'accent-purple', to: '/capture?mode=pro_match' },
+          { icon: TrendingUp, title: 'Technique Score', desc: 'Biomechanics breakdown', color: 'accent-cyan', to: '/capture?mode=technique' },
+          { icon: Zap, title: 'Quick Analysis', desc: 'Results in under 60s', color: 'accent-orange', to: '/capture?mode=quick' },
+          { icon: Camera, title: 'Auto Highlight', desc: 'AI-edited match reels', color: 'accent-green', to: '/capture?intent=highlight&mode=highlight' },
         ].map(({ icon: Icon, title, desc, color, to }) => (
           <motion.div
             key={title}

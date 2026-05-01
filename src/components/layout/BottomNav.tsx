@@ -15,8 +15,9 @@ export function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const hiddenOn = ['/processing', '/card', '/long-video', '/highlight'];
-  if (hiddenOn.some((p) => location.pathname.startsWith(p))) return null;
+  // BottomNav is now visible on every route — processing/card/highlight pages
+  // run their work non-blockingly in the store, so tab switching is always
+  // available.
 
   return (
     <nav className="glass safe-bottom flex items-center justify-around px-2 pt-2 pb-1 border-t border-white/5">

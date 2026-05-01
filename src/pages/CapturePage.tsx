@@ -12,7 +12,6 @@ export function CapturePage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const intent = searchParams.get('intent') === 'highlight' ? 'highlight' : 'analyze';
-  const nextRoute = intent === 'highlight' ? '/highlight' : '/processing';
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -26,7 +25,48 @@ export function CapturePage() {
     setCurrentVideo,
     framingFeedback,
     setFramingFeedback,
+    startAnalyzeJob,
+    startHighlightJob,
   } = useAnalysisStore();
+
+  // The `mode` query param tags the saved session (pro_match | quick |
+  // technique | analyze | highlight). It's separate from the `intent` which
+  // chooses pipeline (analyze vs highlight). For now the three placeholder
+  // modes use the analyze pipeline but save under their own tag.
+  const sessionModeParam = searchParams.get('mode');
+  const sessionMode =
+    intent === 'highlight'
+      ? 'highlight'
+      : sessionModeParam === 'pro_match' ||
+        sessionModeParam === 'quick' ||
+        sessionModeParam === 'technique'
+      ? sessionModeParam
+      : 'analyze';
+
+  // Kick off the right job and route to the right destination.
+  // Used by both record-and-stop and gallery-upload paths.
+  const launchJob = useCallback(
+    (videoUrl: string, file: File | null) => {
+      if (intent === 'highlight') {
+        startHighlightJob({
+          videoUrl,
+          videoFile: file,
+          pipelineMode: mode,
+          sessionMode: 'highlight',
+        });
+        navigate('/highlight');
+      } else {
+        startAnalyzeJob({
+          videoUrl,
+          videoFile: file,
+          pipelineMode: mode,
+          sessionMode,
+        });
+        navigate('/processing');
+      }
+    },
+    [intent, mode, sessionMode, navigate, startAnalyzeJob, startHighlightJob],
+  );
 
   const [cameraActive, setCameraActive] = useState(false);
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
@@ -94,7 +134,7 @@ export function CapturePage() {
       const url = URL.createObjectURL(blob);
       const file = new File([blob], 'recording.webm', { type: 'video/webm' });
       setCurrentVideo(url, file);
-      navigate(nextRoute);
+      launchJob(url, file);
     };
     mediaRecorderRef.current = recorder;
     recorder.start(100);
@@ -129,7 +169,7 @@ export function CapturePage() {
 
     // Highlight intent always goes straight to the reel — long clips are expected
     if (intent === 'highlight') {
-      navigate('/highlight');
+      launchJob(url, file);
       return;
     }
 
@@ -137,12 +177,13 @@ export function CapturePage() {
     video.preload = 'metadata';
     video.onloadedmetadata = () => {
       if (video.duration > 120) {
+        // Long-form analyze flow still routes through delivery picker
         navigate('/long-video');
       } else {
-        navigate('/processing');
+        launchJob(url, file);
       }
     };
-    video.onerror = () => navigate('/processing');
+    video.onerror = () => launchJob(url, file);
     video.src = url;
   };
 
